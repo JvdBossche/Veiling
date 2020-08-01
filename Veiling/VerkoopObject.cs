@@ -6,91 +6,96 @@ namespace Veiling
 {
     public abstract class VerkoopObject
     {
-        double Startprijs { get; set; }
-        double VerwachtePrijs { get; set; }
-        double AfklokPrijs { get; set; }
+        public double Startprijs { get; set; }
+        public double VerwachtePrijs { get; set; }
+        public double AfklokPrijs { get; set; }
     }
 
-    public class Meubels : VerkoopObject
+    public class Meubel : VerkoopObject
     {
-        private enum MeubelSoort { Kast, Bed, Sofa, Stoel, Tafel }
+        public enum MeubelSoort { Kast, Bed, Sofa, Stoel, Tafel }
 
-        MeubelSoort Soort { get; set; }
-        double[] Afmetingen { get; set; }
+        public MeubelSoort Soort { get; set; }
+        public double[] Afmetingen { get; set; }
     }
 
-    class Speelgoed : VerkoopObject
+    public class Speelgoed : VerkoopObject
     {
-        int[] VanTotLeeftijd { get; set; }
-        string Merk { get; set; }
-        string TypeNummer { get; set; }
+        public int[] VanTotLeeftijd { get; set; }
+        public string Merk { get; set; }
+        public string TypeNummer { get; set; }
     }
 
     public abstract class Elektronica : VerkoopObject
     {
-
+        public string Merk { get; set; }
+        public string TypeNummer { get; set; }
     }
 
     public class Witgoed : Elektronica
     {
-        private enum WitgoedSoort { Koelkst, Diepvries, Microgolfoven, Oven, Kookplaat, Wasmachine, Droogkast}
-        WitgoedSoort Soort { get; set; }
+        public enum WitgoedSoort { Koelkst, Diepvries, Microgolfoven, Oven, Kookplaat, Wasmachine, Droogkast}
+        public WitgoedSoort Soort { get; set; }
     }
 
     public class Bruingoed : Elektronica
     {
-        private enum BruingoedSoort { TV, Radio, CDspeler, BlueRay, Spelconsole }
-        BruingoedSoort Soort { get; set; }
+        public enum BruingoedSoort { TV, Radio, CDspeler, BlueRay, Spelconsole }
+        public BruingoedSoort Soort { get; set; }
     }
 
-    public class Computers : Elektronica
+    public class Computer : Elektronica
     {
-        private enum ComputerSoort { Desktop, Laptop, Tablet, Smartphone, SmartWatch }
-        ComputerSoort Soort { get; set; }
-        float Gewicht { get; set; }
-        double[] Afmetingen { get; set; }
+        public enum ComputerSoort { Desktop, Laptop, Tablet, Smartphone, SmartWatch }
+        public ComputerSoort Soort { get; set; }
+        public float Gewicht { get; set; }
+        public double[] Afmetingen { get; set; }
     }
 
     public class Professioneel : Elektronica
     {
-        private enum ProSoort { Boormachine, Draaibank, Zaagtafel}
-        ProSoort Soort { get; set; }
-        private enum Spanning { DC12, DC24, AC230, AC380 }
-        Spanning Voltage { get; set; }
+        public enum ProSoort { Boormachine, Draaibank, Zaagtafel}
+        public ProSoort Soort { get; set; }
+        public enum Spanning { DC12=12, DC24=24, AC230=230, AC380=380 }
+        public Spanning Voltage { get; set; }
     }
 
     public abstract class Kleding : VerkoopObject
     {
         public abstract class KledingMaat { }
-        public class LeeftijdMaat : KledingMaat { int Leeftijd { get; set; } }
-        public class MeetlintMaat : KledingMaat { int Maat { get; set; } }
+        public class LeeftijdMaat : KledingMaat { public int Leeftijd { get; set; } }
+        public class MeetlintMaat : KledingMaat { public int Maat { get; set; } }
         public class SmlMaat : KledingMaat
         {
-            private enum Sml { XXS, XS, S, M, L, XL, XXL, XXXL }
-            Sml Maat { get; set; }
+            public enum Sml { XXS, XS, S, M, L, XL, XXL, XXXL }
+            public Sml Maat { get; set; }
         }
+
+        public string Merk { get; set; }
+        public string ModelNaam { get; set; }
     }
 
-    public class Kinderkkleding : Kleding
+    public class KinderkKleding : Kleding
     {
-        LeeftijdMaat Maat { get; set; }
+        public LeeftijdMaat Maat { get; set; }
     }
 
     public abstract class VolwassenKleding : Kleding
     {
-        KledingMaat Maat { get; set; }
+        public KledingMaat Maat { get; set; }
         // Optioneel: Dwing het gebruik van MeetlintMaat of SmlMaat en dus niet LeeftijdMaat af in get().
     }
     public class Casual : VolwassenKleding { }
+
     public class SportKleding : VolwassenKleding
     {
-        enum Sport { NietSpecifiek, Airsoft, Baseball, Volleyball, Paardrijden, Voetbal}
-        Sport GeschiktVoor { get; set; }
+        public enum Sport { NietSpecifiek, Airsoft, Baseball, Volleyball, Paardrijden, Voetbal}
+        public Sport GeschiktVoor { get; set; }
     }
 
     public class VeiligheidsKleding : VolwassenKleding
     {
-        private enum Bescherming { Hoof, Voeten, Ogen, Oren}
-        Bescherming Beschermt { get; set; }
+        public enum Bescherming { Hoofd, Voeten, Ogen, Oren}
+        public Bescherming Beschermt { get; set; }
     }
 }
