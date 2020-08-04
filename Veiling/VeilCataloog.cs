@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
 
 namespace Veiling
@@ -21,10 +23,63 @@ namespace Veiling
             List<VerkoopObject> cataloog = (List<VerkoopObject>)binairFormaat.Deserialize(fileStream);
 
             Console.WriteLine($"Cataloog gelezen uit bestand {inputFile}:");
+            Console.WriteLine("De veiling van het eerste item begint zometeen. Druk op een knop om de veilingklok te stoppen.");
+            Verdergaan("Verdergaan? (J/N)");
             foreach (VerkoopObject item in cataloog)
             {
-                Console.WriteLine(item);
+                Veil(item);
             }
+        }
+
+        static void Veil(VerkoopObject item)
+        {
+            Console.WriteLine();
+            Console.WriteLine(item);
+
+            //Bepaal increment waarde
+            double increment;
+            double spreiding = item.VerwachtePrijs - item.Startprijs;
+            if (spreiding <= 0 && spreiding < 10) increment = 0.01;
+            else if (spreiding <= 10 && spreiding < 100) increment = 0.1;
+            else if (spreiding <= 100 && spreiding < 500) increment = 0.5;
+            else if (spreiding <= 500 && spreiding < 1000) increment = 1.0;
+            else if (spreiding <= 1000 && spreiding < 5000) increment = 5.0;
+            else increment = 10.0;
+            double huidigePrijs = item.Startprijs;
+            do
+            {
+                Console.CursorVisible = false;
+                Console.Write($"\r{huidigePrijs,8:F2}");
+                System.Threading.Thread.Sleep(50);
+                huidigePrijs += increment;
+            } while (!Console.KeyAvailable);
+            item.AfklokPrijs = huidigePrijs;
+            Console.CursorVisible = true;
+            Console.WriteLine();
+            Console.WriteLine($"{item.ToString()} is verkocht aan {item.AfklokPrijs,1:F2}");
+            Console.WriteLine($"Dat is {Math.Abs(item.AfklokPrijs - item.VerwachtePrijs),1:F2} {((item.AfklokPrijs < item.VerwachtePrijs) ? "minder" : "boven")} de verwachte prijs {item.VerwachtePrijs,1:F2}.");
+
+            if (Verdergaan("Verdergaan met het volgende item? (J/N)"))
+            {
+                return; // Volgende item Veilen
+            }
+            else
+            {
+                Environment.Exit(1); // %errorlevel% == 1: Vroegtijdig beeindigd.
+            }
+        }
+
+        static bool Verdergaan(String bericht)
+        {
+            char[] toegelatenAntwoorden = { 'j', 'J', 'n', 'N' };
+            Console.WriteLine(bericht);
+            ConsoleKeyInfo key = Console.ReadKey();
+            while (!toegelatenAntwoorden.Contains<char>(key.KeyChar))
+            {
+                Console.Beep();
+                key = Console.ReadKey();
+            }            
+            if ( key.KeyChar == 'j' || key.KeyChar == 'J') return true; else return false;
         }
         
     }
