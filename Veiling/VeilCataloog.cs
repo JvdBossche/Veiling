@@ -37,15 +37,9 @@ namespace Veiling
             Console.WriteLine(item);
 
             //Bepaal increment waarde
-            double increment;
-            double spreiding = item.VerwachtePrijs - item.Startprijs;
-            if (spreiding <= 0 && spreiding < 10) increment = 0.01;
-            else if (spreiding <= 10 && spreiding < 100) increment = 0.1;
-            else if (spreiding <= 100 && spreiding < 500) increment = 0.5;
-            else if (spreiding <= 500 && spreiding < 1000) increment = 1.0;
-            else if (spreiding <= 1000 && spreiding < 5000) increment = 5.0;
-            else increment = 10.0;
-            double huidigePrijs = item.Startprijs;
+            decimal spreiding = item.VerwachtePrijs - item.Startprijs;
+            decimal increment = GetIncrement(spreiding);
+            decimal huidigePrijs = item.Startprijs;
             do
             {
                 Console.CursorVisible = false;
@@ -67,6 +61,18 @@ namespace Veiling
             {
                 Environment.Exit(1); // %errorlevel% == 1: Vroegtijdig beeindigd.
             }
+        }
+
+        private static decimal GetIncrement(decimal spreiding)
+        {
+            decimal increment;
+            if (spreiding <= 0 && spreiding < 10) increment = 0.01M;
+            else if (spreiding <= 10 && spreiding < 100) increment = 0.1M;
+            else if (spreiding <= 100 && spreiding < 500) increment = 0.5M;
+            else if (spreiding <= 500 && spreiding < 1000) increment = 1.0M;
+            else if (spreiding <= 1000 && spreiding < 5000) increment = 5.0M;
+            else increment = 10.0M;
+            return increment;
         }
 
         static bool Verdergaan(String bericht)
