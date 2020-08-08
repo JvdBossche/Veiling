@@ -8,9 +8,9 @@ namespace Veiling
     [Serializable]
     public abstract class VerkoopObject
     {
-        public double Startprijs { get; set; }
-        public double VerwachtePrijs { get; set; }
-        public double AfklokPrijs { get; set; }
+        public decimal Startprijs { get; set; }
+        public decimal VerwachtePrijs { get; set; }
+        public decimal AfklokPrijs { get; set; }
     }
 
     [Serializable]
