@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Newtonsoft.Json;
 
 namespace Veiling
 {
@@ -115,6 +116,7 @@ namespace Veiling
             using Stream fileStream = File.Open(outputFile, FileMode.Create);
             System.Runtime.Serialization.Formatters.Binary.BinaryFormatter binairFormaat = new System.Runtime.Serialization.Formatters.Binary.BinaryFormatter();
             binairFormaat.Serialize(fileStream, cataloog);
+            Console.WriteLine(JsonConvert.SerializeObject(cataloog, Formatting.Indented));
             Console.WriteLine($"De opgebouwde cataloog is weggeschreven naar bestand \"{outputFile}\"");
         }
     }
